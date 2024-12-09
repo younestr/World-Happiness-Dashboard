@@ -189,6 +189,44 @@ else:
         )
         st.plotly_chart(gdp_chart)
 
+        # Freedom comparison section
+        if 'Freedom' in df.columns:
+            col_free1, col_free2 = st.columns(2)  # Create two side-by-side blocks
+
+            # Get the countries with the highest and lowest freedom scores
+            most_free = df.loc[df['Freedom'].idxmax()]
+            least_free = df.loc[df['Freedom'].idxmin()]
+
+            # Calculate the difference
+            freedom_diff = most_free['Freedom'] - least_free['Freedom']
+
+            # Display the most free country in a block
+            with col_free1:
+                st.markdown(
+                    f"""
+                    <div style="background-color:#2ecc71; padding: 10px; border-radius: 5px;">
+                        <h3 style="color:white; text-align:center;">Most Free Country</h3>
+                        <p style="color:white; text-align:center;">{most_free['Country']}<br>Freedom Score: {most_free['Freedom']}</p>
+                        <p style="color:white; text-align:center; font-size: 16px;">{freedom_diff:.2f} <span style="color: green;">↑</span></p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+
+            # Display the least free country in a block
+            with col_free2:
+                st.markdown(
+                    f"""
+                    <div style="background-color:#e74c3c; padding: 10px; border-radius: 5px;">
+                        <h3 style="color:white; text-align:center;">Least Free Country</h3>
+                        <p style="color:white; text-align:center;">{least_free['Country']}<br>Freedom Score: {least_free['Freedom']}</p>
+                        <p style="color:white; text-align:center; font-size: 16px;">{freedom_diff:.2f} <span style="color: red;">↓</span></p>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
+
+
     # Create a new row with 3 columns for the gauges
     col3, col4, col5 = st.columns(3)  # Three columns for the gauges
 
